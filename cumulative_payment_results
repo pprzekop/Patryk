@@ -1,0 +1,17 @@
+create view cumulate_payment_results as
+with cte as(
+select
+    extract(year from payment_date) year
+,   extract(month from payment_date) month
+,   sum(amount) total_amount
+
+from payment
+ group by 1,2
+ order by 1,2 )
+select
+    year
+,   month
+,   total_amount
+,   sum(total_amount) over(order by year,month) cumulative_total_amount
+,   sum(total_amount) over(order by year,month)/sum(total_amount) over(order by year) annual_cumulative_percentage_value
+    from cte;
