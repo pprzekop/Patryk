@@ -1,0 +1,11 @@
+select
+    extract(year from date) YEAR
+,   extract(quarter from date) QUARTER
+,   MONTH(date) MONTH
+,   SUM(amount) SUM
+,   AVG(amount) AVF_QTY
+,   COUNT(loan_id)
+
+from loan
+GROUP BY 1,2,3 WITH ROLLUP
+ORDER BY 1,2,3;
