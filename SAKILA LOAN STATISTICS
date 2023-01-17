@@ -1,0 +1,23 @@
+select
+    extract(year from l.date) YEAR
+,   extract(quarter from l.date) QUARTER
+,   month(l.date) MONTH
+,   gender
+,   a3 region
+,   case
+    when status='a' then 'paid in term'
+    when status='b' then 'during repaying'
+    when status='c' then 'eviction'
+    when status='d' then 'paid before term'
+    end 'loan status'
+,   SUM(amount) SUM
+,   AVG(amount) AVF_QTY
+,   COUNT(loan_id)
+from loan l
+inner join account a on a.account_id=l.account_id
+inner join disp d on d.account_id=a.account_id
+inner join district dis on dis.district_id=a.district_id
+inner join client c on c.client_id=d.client_id
+where d.type='owner'
+GROUP BY 1,2,3,4,5,6
+ORDER BY 1,2,3,4,5,6;
