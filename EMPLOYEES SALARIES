@@ -1,0 +1,14 @@
+create view emp_salaries as
+select
+    e.*
+,   s.salary
+,   t.title
+,   d.dept_name
+,   extract(year from now())-extract(year from e.birth_date) age
+,   extract(year from now())-extract(year from hire_date) job_experience
+from employees e
+inner join salaries s on e.emp_no = s.emp_no
+inner join titles t on t.emp_no=e.emp_no
+inner join dept_emp de on e.emp_no = de.emp_no
+inner join departments d on de.dept_no = d.dept_no
+where s.to_date>=now() and t.to_date>=now() and de.to_date>=now();
