@@ -1,0 +1,21 @@
+create view salaries_statistics_by_gender_department as
+select
+    dept_name
+,   gender
+,   case
+    when salary<50000 then 'up 50'
+    when salary<60000 then 'up 60'
+    when salary<70000 then 'up 70'
+    when salary<80000 then 'up 80'
+    when salary<90000 then 'up 90'
+    when salary<100000 then 'up 100'
+    when salary<110000 then 'up 110'
+    when salary<120000 then 'up 120'
+    when salary<130000 then 'up 130'
+    when salary<140000 then 'up 140'
+    when salary<150000 then 'up 150'
+    else 'more than 150'
+end 'salary category'
+ ,   count(emp_no) nr_of_employees
+from emp_salaries
+group by 1,2,3;
